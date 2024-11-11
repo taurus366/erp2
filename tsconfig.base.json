@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@erp/ui": ["libs/cl_base/ui/feature/ui/src/index.ts"]
+      "@erp/ui": ["libs/cl_base/ui/feature/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

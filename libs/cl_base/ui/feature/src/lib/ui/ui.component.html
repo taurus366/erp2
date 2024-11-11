@@ -1,0 +1,14 @@
+<nav>
+  <ul>
+    <li *ngFor="let menu of menuItems">
+      <a [routerLink]="menu.route">{{ menu.name }}</a>
+      <ul *ngIf="menu.children">
+        <li *ngFor="let child of menu.children">
+          <a [routerLink]="child.route">{{ child.name }}</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<!--<router-outlet></router-outlet>-->
