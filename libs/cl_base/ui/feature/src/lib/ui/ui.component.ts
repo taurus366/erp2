@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { MenuItem, UiService } from './ui.service';
 
 @Component({
@@ -8,14 +8,26 @@ import { MenuItem, UiService } from './ui.service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './ui.component.html',
-  styleUrl: './ui.component.css',
+  styleUrls: ['./ui.component.css'], // Fixed to `styleUrls`
 })
 export class UiComponent {
-  menuItems : MenuItem[] = [];
+  menuItems: MenuItem[] = [];
 
-  constructor(private uiService: UiService, private router: Router) {}
+  constructor(private uiService: UiService) {}
 
   ngOnInit(): void {
+    // Define and add menu items with children and components
+    this.uiService.addMenu({
+      name: 'User',
+      path: 'user',
+      component: UiComponent,
+      children: [
+        { name: 'User List', path: 'user/list', component: UiComponent },
+        { name: 'User New', path: 'user/new', component: UiComponent },
+      ],
+    });
+
+    // Retrieve the menu items for display
     this.menuItems = this.uiService.getMenuItems();
   }
 }

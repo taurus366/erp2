@@ -3,48 +3,49 @@ import { Router } from '@angular/router';
 
 export interface MenuItem {
   name: string;
-  route: string;
+  path: string;
   children?: MenuItem[];
+  component?: any; // Use `any` for generic component typing
 }
+
 @Injectable({
   providedIn: 'root',
 })
 export class UiService {
   private menuItems: MenuItem[] = [];
-  // private routes: any[] = [];
   private routes: any[] = [];
+
   constructor(private router: Router) {}
 
-  //  // Register routes and menu for the User module
-  //     this.uiService.addRoute('/user', UserComponent);
-
-  //   this.uiService.addMenu({
-  //       name: 'User',
-  //       route: '/user',
-  //       children: [
-  //         { name: 'User List', route: '/user/list' },
-  //         { name: 'User New', route: '/user/new' },
-  //       ],
-  //     });
-  // Add a menu item to the UI
+  // Add a menu item and its associated routes
   addMenu(menuItem: MenuItem): void {
     this.menuItems.push(menuItem);
+    this.addView(menuItem.path, menuItem.component);
+
+    // Recursively add children as routes
+    if (menuItem.children) {
+      menuItem.children.forEach((child) =>
+        this.addView(child.path, child.component)
+      );
+    }
   }
 
-   // Add a view component (route) to the UI
-  addView(routePath: string, component: any) {
-    this.routes.push({ path: routePath, component });
-    this.router.resetConfig([...this.router.config, { path: routePath, component }]);
+  // Add a view route dynamically
+  addView(routePath: string, component: any): void {
+    // Ensure each route is unique to avoid duplicates
+    if (!this.router.config.some((route) => route.path === routePath)) {
+      this.routes.push({ path: routePath, component });
+      this.router.resetConfig([...this.router.config, { path: routePath, component }]);
+    }
   }
 
-//   // Get current menu items
-  getMenuItems() {
+  // Get current menu items for use in the UI
+  getMenuItems(): MenuItem[] {
     return this.menuItems;
   }
 
-//   // Get all routes for the app (used for dynamic routing)
-  getRoutes() {
+  // Get all dynamically added routes
+  getRoutes(): any[] {
     return this.routes;
   }
-
 }
