@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import {  Router } from '@angular/router';
 
 export interface MenuItem {
   name: string;
   path: string;
   children?: MenuItem[];
-  component?: any; // Use `any` for generic component typing
+  component?: any; // Use `any` for component if the route directly points to a component
+  loadChildrenn?: any; // The path to the module for lazy loading
 }
-
 @Injectable({
   providedIn: 'root',
 })
@@ -15,27 +15,55 @@ export class UiService {
   private menuItems: MenuItem[] = [];
   private routes: any[] = [];
 
+
   constructor(private router: Router) {}
+
+
 
   // Add a menu item and its associated routes
   addMenu(menuItem: MenuItem): void {
     this.menuItems.push(menuItem);
-    this.addView(menuItem.path, menuItem.component);
+    if (menuItem.loadChildrenn) {
+      // Lazy-loaded module path
+      this.addLazyRoute(menuItem.path, menuItem.loadChildrenn);
+    } else {
+      // Regular component route
+      this.addView(menuItem.path, menuItem.component);
+    }
 
     // Recursively add children as routes
     if (menuItem.children) {
       menuItem.children.forEach((child) =>
-        this.addView(child.path, child.component)
+        this.addMenu(child)
       );
+    }
+  }
+
+  // Add a lazy-loaded view route dynamically
+  addLazyRoute(routePath: string, loadChildrenPath: string): void {
+    if (!this.router.config.some((route) => route.path === routePath)) {
+      this.routes.push({
+        path: routePath,
+        loadChildren: () => import(loadChildrenPath).then((m) => m.default || m),
+      });
+      this.router.resetConfig([
+        ...this.router.config,
+        {
+          path: routePath,
+          loadChildren: () => import(loadChildrenPath).then((m) => m.default || m),
+        },
+      ]);
     }
   }
 
   // Add a view route dynamically
   addView(routePath: string, component: any): void {
-    // Ensure each route is unique to avoid duplicates
     if (!this.router.config.some((route) => route.path === routePath)) {
       this.routes.push({ path: routePath, component });
-      this.router.resetConfig([...this.router.config, { path: routePath, component }]);
+      this.router.resetConfig([
+        ...this.router.config,
+        { path: routePath, component },
+      ]);
     }
   }
 
