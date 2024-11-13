@@ -1,6 +1,13 @@
 # Erp 
 #chatGPT - check here : https://chatgpt.com/c/67323b20-0b10-800c-a845-b8f871a7c88a
 
+1. npx create-nx-workspace@latest erp --preset=empty / select angular
+2. npm install @nrwl/angular -> nx generate @nrwl/angular:application client
+3. npm install @nrwl/nest -> nx generate @nrwl/nest:application api
+4. nx generate @nrwl/angular:library libs/cl_base/ui/feature/ui
+
+
+
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
 ✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
