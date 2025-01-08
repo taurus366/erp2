@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@erp/ui": ["libs/cl_base/ui/feature/src/index.ts"]
+//      "@erp/auth": ["libs/cl_base/ui/feature/src/index.ts"]
+      "@erp/auth": ["modules/ai_base/auth/ui/export.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
