@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
 //      "@erp/auth": ["libs/cl_base/ui/feature/src/index.ts"]
-      "@erp/auth": ["modules/ai_base/auth/ui/export.ts"]
+      "@erp/auth": ["modules/ai_base/auth/ui/export.ts"],
+      "@erp/auth-api": ["modules/ai_base/auth/api/export.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
