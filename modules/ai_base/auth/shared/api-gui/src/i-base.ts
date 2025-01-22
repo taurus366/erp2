@@ -1,5 +1,5 @@
 export abstract class IBase {
-  id?: string;
+  id?: number;
   createdAt?: Date;
   updatedAt?: Date;
   deletedData?: Date;
