@@ -1,20 +1,17 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { BaseService } from './base.service';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from '../entity/user.entity';
-import { ILoginUser, INewUser, IUpdateUser, IUser } from '../../../../shared/api-interfaces';
+import { ILoginUser, IUser } from '../../../../shared/api-interfaces';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class UserService extends BaseService<User>{
-  // constructor(@InjectRepository(User) repository: Repository<User>,
+export class UserService {
+  constructor(@InjectRepository(User) public readonly repository: Repository<User>,
   //             private jwtService: JwtService
-  // ) {
-  //   super();
-  //   this.repository = repository;
-  // }
+  ) {
+  }
 
 
   async login(data: ILoginUser): Promise<IUser> {
@@ -71,21 +68,22 @@ export class UserService extends BaseService<User>{
   // }
   //
   private async validateUser(usernameLogin: string, passwordLogin: string): Promise<Partial<IUser>> {
-    const user = await this.findOne({ username: usernameLogin.toLowerCase().trim() });
+    // const user = await this.findOne({ username: usernameLogin.toLowerCase().trim() });
+    const user = {};
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    const { id, email, username, bio, image } = user;
+    // const { id, email, username, bio, image } = user;
 
-    const validPass = await bcrypt.compare(passwordLogin, user.password);
+    // const validPass = await bcrypt.compare(passwordLogin, user.password);
 
-    if(!validPass) {
-      throw new NotFoundException('password not match');
-    }
+    // if(!validPass) {
+    //   throw new NotFoundException('password not match');
+    // }
 
-    return {id, email, username, bio, image}
-
+    // return {id, email, username, bio, image}
+return null;
   }
 
   // private async generateJWTToken(data: {

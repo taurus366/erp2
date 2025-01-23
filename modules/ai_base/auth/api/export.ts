@@ -1,2 +1,1 @@
-export {CtrlModule} from './src/ctrl.module';
-export {DbModule} from './src/db/db.module';
+export {CtrlModule} from './src/ctrl/ctrl.module';

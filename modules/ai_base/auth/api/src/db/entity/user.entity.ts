@@ -1,11 +1,12 @@
-import { Column, Entity} from 'typeorm';
-import { BaseEntity } from './BaseEntity';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity()
-export abstract class User extends BaseEntity {
-  @Column({unique: true})
+@Entity("users")
+export abstract class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+  @Column()
   email: string;
-  @Column({unique: true})
+  @Column()
   username: string;
   @Column()
   password: string;
@@ -13,5 +14,9 @@ export abstract class User extends BaseEntity {
   bio: string;
   @Column()
   image: string;
+  @CreateDateColumn()
+  stamp: Date;
+  @UpdateDateColumn()
+  change: Date;
 
 }
