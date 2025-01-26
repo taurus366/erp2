@@ -3,7 +3,7 @@ import { UserService } from '../../db/service/user.service';
 import { User } from '../../db/entity/user.entity';
 
 @Injectable()
-export class TestService implements OnModuleInit{
+export class StartService implements OnModuleInit{
 
   constructor(private readonly userService: UserService) {
   }

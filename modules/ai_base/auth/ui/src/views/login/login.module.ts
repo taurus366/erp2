@@ -9,6 +9,7 @@ const routes: Routes = [
   {
     path: '',
     component: LoginComponent, // Main component for this route
+    canActivate: []
   },
 ];
 

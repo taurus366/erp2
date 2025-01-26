@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
   ],
   providers: [
     UserService,
-    // JwtService, // Ensure JwtService is included if UserService uses it
+     JwtService, // Ensure JwtService is included if UserService uses it
   ],
   exports: [
     UserService, // Export for use in CtrlModule

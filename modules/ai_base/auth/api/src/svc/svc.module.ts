@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TestService } from './service/test.service';
+import { StartService } from './service/start.service';
 import { DbModule } from '../db/db.module';
 
 @Module({
   imports: [DbModule],
-  providers: [TestService],
-  exports: [TestService],
+  providers: [StartService],
+  exports: [StartService],
 
 })
 export class SvcModule {}

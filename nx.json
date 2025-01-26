@@ -16,6 +16,12 @@
   },
   "nxCloudId": "67323f6548eb633c744e47ec",
   "targetDefaults": {
+    "build": {
+      "cache": false
+    },
+    "test": {
+      "cache": false
+    },
     "@angular-devkit/build-angular:browser": {
       "cache": true,
       "dependsOn": ["^build"],

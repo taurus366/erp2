@@ -22,11 +22,6 @@ export class User {
   @Column()
   lang_id: number;
 
-//   const entity = Object.assign(new Entity(), {
-//   time: new Date(),
-//   lang: 2,
-// });
-
 
   async setPassword(value: string) {
     this.password = await bcrypt.hash(value, 10);

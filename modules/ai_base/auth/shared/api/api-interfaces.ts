@@ -1,18 +1,9 @@
-import { IBase } from './api-gui/src/i-base';
+import { IBase } from '../api-gui/src/i-base';
 import { IsEmail, IsNotEmpty, MaxLength } from 'class-validator';
 
 export abstract class ILoginUser {
   username: string;
   password: string;
-}
-
-export abstract class IUser extends IBase {
-  username: string;
-  password: string;
-  email: string;
-  token: string;
-  bio: string;
-  image: string;
 }
 
 // Update user
@@ -41,4 +32,12 @@ export abstract class INewUser {
   @IsNotEmpty()
   @MaxLength(200)
   password: string
+}
+// User response
+export abstract class IUser {
+  username: string;
+  email: string;
+  token: string;
+  bio: string;
+  image: string;
 }

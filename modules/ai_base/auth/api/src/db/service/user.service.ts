@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from '../entity/user.entity';
-import { ILoginUser, IUser } from '../../../../shared/api-interfaces';
+import { ILoginUser, IUser } from '../../../../shared/api/api-interfaces';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class UserService {
   constructor(@InjectRepository(User) public readonly repository: Repository<User>,
-  //             private jwtService: JwtService
+              private jwtService: JwtService
   ) {
   }
 
@@ -68,31 +68,30 @@ export class UserService {
   // }
   //
   private async validateUser(usernameLogin: string, passwordLogin: string): Promise<Partial<IUser>> {
-    // const user = await this.findOne({ username: usernameLogin.toLowerCase().trim() });
-    const user = {};
+    const user = await this.repository.findOne({
+      where: {
+        username: usernameLogin.toLowerCase().trim()
+      }
+    });
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    // const { id, email, username, bio, image } = user;
-
-    // const validPass = await bcrypt.compare(passwordLogin, user.password);
-
-    // if(!validPass) {
-    //   throw new NotFoundException('password not match');
-    // }
-
-    // return {id, email, username, bio, image}
-return null;
+    const validPass = await bcrypt.compare(passwordLogin, user.password);
+    if(!validPass) {
+      throw new NotFoundException('password not match');
+    }
+    const {id, email, username, image} = user;
+    return {id, email, username, image};
   }
 
-  // private async generateJWTToken(data: {
-  //   sub: string;
-  //   email: string;
-  //   username: string;
-  // }): Promise<string> {
-  //   return this.jwtService.sign(data)
-  // }
+  private async generateJWTToken(data: {
+    sub: string;
+    email: string;
+    username: string;
+  }): Promise<string> {
+    return this.jwtService.sign(data)
+  }
 
   private async hashPassword(raw: string): Promise<string> {
     return await bcrypt.hash(raw, 10);
