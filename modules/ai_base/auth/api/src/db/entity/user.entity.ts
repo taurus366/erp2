@@ -1,7 +1,8 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity("users")
-export abstract class User {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
@@ -18,5 +19,16 @@ export abstract class User {
   stamp: Date;
   @UpdateDateColumn()
   change: Date;
+  @Column()
+  lang_id: number;
 
+//   const entity = Object.assign(new Entity(), {
+//   time: new Date(),
+//   lang: 2,
+// });
+
+
+  async setPassword(value: string) {
+    this.password = await bcrypt.hash(value, 10);
+  }
 }
