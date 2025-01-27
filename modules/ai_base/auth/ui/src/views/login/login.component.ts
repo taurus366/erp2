@@ -1,16 +1,44 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { UserService } from '../../../../shared/ui/user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'login',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
-    <h1>Login Page</h1>
-    <p>Enter your credentials to log in.</p>
-  `,
-  // templateUrl: './login.component.html',
-  // styleUrls: ['./login.component.scss']
+  standalone: false,
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent {}
+export class LoginComponent {
+  form!: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private title: Title,
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
+    this.initForm();
+  }
+
+  ngOnInit(): void {
+    this.title.setTitle('Sign in');
+  }
+
+  private initForm() {
+    this.form = this.fb.group({
+      username: [null, [Validators.required]],
+      password: [null, [Validators.required]]
+    })
+  }
+
+  login() {
+    this.userService.login(this.form.value)
+    .subscribe(async _ => {
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl')?? '/';
+      await this.router.navigateByUrl(returnUrl);
+    });
+  }
+}

@@ -16,9 +16,10 @@ export class UserService {
 
   async login(data: ILoginUser): Promise<IUser> {
     const user = await this.validateUser(data.username, data.password);
+    const payload = {sub: user.id, username: user.username};
     return {
       ...user as IUser,
-      token: 'xxx'
+      token: this.jwtService.sign(payload)
     }
   }
 

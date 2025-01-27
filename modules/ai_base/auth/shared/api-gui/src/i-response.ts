@@ -24,3 +24,14 @@ export class ActionSuccessResponse<T> implements IResponse<T> {
     this.data = options.data
   }
 }
+
+export class DetailSuccessResponse<T> implements IResponse<T> {
+  success = true;
+  statusCode = HTTP_STATUS_CODE.OK;
+  detailData: Partial<T>;
+  constructor(options: {
+    detailData: T
+  }) {
+    this.detailData = options.detailData
+  }
+}

@@ -4,9 +4,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CtrlModule } from '@erp/auth-api';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import {SharedApiConfigModule} from '@erp/config';
+import { environment } from '../environments/environment.prod';
 
 @Module({
   imports: [
+    SharedApiConfigModule.forRoot(environment),
     CtrlModule,
     TypeOrmModule.forRoot({
       type: 'postgres', // or another DB type
@@ -15,7 +18,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: 'postgres',
       password: 'taurus',
       database: 'erp',
-      // entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
       synchronize: false, // Only for development
     }),
