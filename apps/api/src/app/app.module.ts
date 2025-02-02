@@ -9,18 +9,9 @@ import { environment } from '../environments/environment.prod';
 
 @Module({
   imports: [
-    SharedApiConfigModule.forRoot(environment),
+    SharedApiConfigModule.forRoot(environment.api),
     CtrlModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres', // or another DB type
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'taurus',
-      database: 'erp',
-      autoLoadEntities: true,
-      synchronize: false, // Only for development
-    }),
+    TypeOrmModule.forRoot(environment.db),
   ],
   controllers: [AppController],
   providers: [AppService],
